@@ -1,21 +1,19 @@
 package com.amber.random.datapoliceukv2.viewmodel;
 
-/**
- * Created by alexander on 16.07.17.
- */
-
 public class ServiceResult<T> {
-    public final Throwable mException;
-    public final T mResult;
+    public final Throwable exception;
+    public final T result;
     public final boolean isSuccessful;
-    public ServiceResult(Throwable exception){
-        mException = exception;
+
+    public ServiceResult(Throwable exception) {
+        this.exception = exception;
         isSuccessful = false;
-        mResult = null;
+        result = null;
     }
-    public ServiceResult(T result){
-        mException = null;
+
+    public ServiceResult(T result) {
+        exception = null;
         isSuccessful = true;
-        mResult = result;
+        this.result = result;
     }
 }

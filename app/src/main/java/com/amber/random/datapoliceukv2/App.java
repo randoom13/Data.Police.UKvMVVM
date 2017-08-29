@@ -9,19 +9,19 @@ import com.amber.random.datapoliceukv2.di.module.RestApiModule;
 import com.amber.random.datapoliceukv2.di.module.ViewModelModule;
 
 public class App extends Application {
-    private static AppComponent mComponent;
+    private static AppComponent sComponent;
+
+    public static AppComponent getComponent() {
+        return sComponent;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-      mComponent = DaggerAppComponent.builder()
+        sComponent = DaggerAppComponent.builder()
               .networkModule(new NetworkModule())
               .restApiModule(new RestApiModule())
               .viewModelModule(new ViewModelModule())
               .build();
-    }
-
-    public static AppComponent getComponent() {
-        return mComponent;
     }
 }

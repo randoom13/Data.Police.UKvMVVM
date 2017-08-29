@@ -10,7 +10,7 @@ import com.amber.random.datapoliceukv2.R;
 
 public abstract class BaseController
         extends RecyclerView.ViewHolder implements View.OnClickListener {
-    public static final View.OnTouchListener ON_TOUCH = new View.OnTouchListener() {
+    private static final View.OnTouchListener sOnTouch = new View.OnTouchListener() {
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -23,7 +23,7 @@ public abstract class BaseController
     public BaseController(View itemView) {
         super(itemView);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            itemView.setOnTouchListener(ON_TOUCH);
+            itemView.setOnTouchListener(sOnTouch);
     }
 
     public abstract void onClick(View v);

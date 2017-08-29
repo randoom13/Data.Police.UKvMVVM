@@ -35,7 +35,7 @@ public abstract class BaseFragment<B extends ViewDataBinding, T extends BaseView
     }
 
     protected void error(Throwable e) {
-        Snackbar snackbar = Snackbar.make(mBinding.getRoot(), e.getMessage(), Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(mBinding.getRoot(), e.getMessage(), Snackbar.LENGTH_INDEFINITE);
         snackbar.show();
     }
 }
