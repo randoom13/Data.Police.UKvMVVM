@@ -34,7 +34,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
+    androidTestCompile 'com.github.fabioCollini:DaggerMock:0.7.0'
+    androidTestCompile 'org.mockito:mockito-android:2.7.22'
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2'
     testCompile 'junit:junit:4.12'
 
     //Support libraries
