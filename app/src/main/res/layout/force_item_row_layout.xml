@@ -33,6 +33,7 @@
             android:orientation="vertical"
             android:padding="5dp">
 
+            <!-- add id for test purpose -->
             <TextView
                 android:id="@android:id/text1"
                 android:layout_width="match_parent"
