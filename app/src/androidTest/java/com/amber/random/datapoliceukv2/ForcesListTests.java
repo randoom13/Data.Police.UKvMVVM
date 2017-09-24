@@ -1,5 +1,6 @@
 package com.amber.random.datapoliceukv2;
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
@@ -10,6 +11,8 @@ import android.widget.EditText;
 import com.amber.random.datapoliceukv2.api.BackendServiceApi;
 import com.amber.random.datapoliceukv2.assertions.EmptyTextViewTextAssertion;
 import com.amber.random.datapoliceukv2.assertions.TextViewTextAssertion;
+import com.amber.random.datapoliceukv2.di.component.AppComponent;
+import com.amber.random.datapoliceukv2.di.module.RestApiModule;
 import com.amber.random.datapoliceukv2.model.force.ForceItem;
 import com.amber.random.datapoliceukv2.ui.MainActivity;
 
@@ -22,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import it.cosenonjaviste.daggermock.DaggerMockRule;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -39,12 +43,20 @@ import static org.mockito.Mockito.when;
 @LargeTest
 public class ForcesListTests {
     @Rule
-    public TestRule mDaggerRule = new TestRule();
+    public DaggerMockRule<AppComponent> mockitoRule =
+            new DaggerMockRule<>(AppComponent.class, new RestApiModule())
+                    .customizeBuilder((AppComponent.Builder builder) -> builder.application(getApp()))
+                    .set(component -> component.inject(getApp()));
     @Rule
     public ActivityTestRule<MainActivity> mainActivity = new ActivityTestRule<MainActivity>
             (MainActivity.class, false, false);
     @Mock
     BackendServiceApi mBackendServiceApi;
+
+    private static App getApp() {
+        return (App) InstrumentationRegistry.getInstrumentation()
+                .getTargetContext().getApplicationContext();
+    }
 
     private static List<ForceItem> getDummyListForces() {
         List<ForceItem> forces = new ArrayList<>();

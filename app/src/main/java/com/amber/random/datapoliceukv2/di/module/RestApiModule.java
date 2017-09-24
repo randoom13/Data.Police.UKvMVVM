@@ -10,7 +10,6 @@ import retrofit2.Retrofit;
 
 @Module
 public class RestApiModule {
-
     @Provides
     @Singleton
     public BackendServiceApi provideRestApi(Retrofit retrofit) {

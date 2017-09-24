@@ -1,36 +1,31 @@
 package com.amber.random.datapoliceukv2;
 
 import android.app.Application;
-import android.support.annotation.VisibleForTesting;
+import android.support.v4.app.Fragment;
 
-import com.amber.random.datapoliceukv2.di.component.AppComponent;
 import com.amber.random.datapoliceukv2.di.component.DaggerAppComponent;
-import com.amber.random.datapoliceukv2.di.module.NetworkModule;
-import com.amber.random.datapoliceukv2.di.module.RestApiModule;
-import com.amber.random.datapoliceukv2.di.module.ViewModelModule;
 
-import static android.support.annotation.VisibleForTesting.NONE;
+import javax.inject.Inject;
 
-public class App extends Application {
-    private static AppComponent sComponent;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
-    public static AppComponent getComponent() {
-        return sComponent;
-    }
+public class App extends Application implements HasSupportFragmentInjector {
+    @Inject
+    DispatchingAndroidInjector<Fragment> mDispatchingAndroidInjector;
 
-    @VisibleForTesting(otherwise = NONE)
-    public static void setComponent(AppComponent component) {
-        sComponent = component;
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return mDispatchingAndroidInjector;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        sComponent = DaggerAppComponent.builder()
-                .networkModule(new NetworkModule())
-                .restApiModule(new RestApiModule())
-                .viewModelModule(new ViewModelModule())
-                .build();
+        DaggerAppComponent.builder()
+                .application(this)
+                .build()
+                .inject(this);
     }
-
 }

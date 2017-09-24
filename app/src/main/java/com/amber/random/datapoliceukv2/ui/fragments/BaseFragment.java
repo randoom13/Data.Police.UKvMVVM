@@ -7,12 +7,9 @@ import android.support.design.widget.Snackbar;
 
 import com.amber.random.datapoliceukv2.viewmodel.BaseViewModel;
 
-import javax.inject.Inject;
-
 public abstract class BaseFragment<B extends ViewDataBinding, T extends BaseViewModel>
         extends LifecycleFragment {
 
-    @Inject
     protected T mViewModel;
     protected B mBinding;
 
@@ -20,12 +17,6 @@ public abstract class BaseFragment<B extends ViewDataBinding, T extends BaseView
         if (mViewModel == null)
             throw new IllegalStateException("mViewModel must not be null and should be injected via fragmentComponent.inject(this);");
         mBinding = DataBindingUtil.setContentView(this.getActivity(), layout);
-    }
-
-    @Override
-    public void onStop() {
-        mViewModel.clearSubscriptions();
-        super.onStop();
     }
 
     @Override

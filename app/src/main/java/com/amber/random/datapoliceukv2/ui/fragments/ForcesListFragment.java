@@ -1,5 +1,6 @@
 package com.amber.random.datapoliceukv2.ui.fragments;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,25 +17,30 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
-import com.amber.random.datapoliceukv2.App;
 import com.amber.random.datapoliceukv2.R;
 import com.amber.random.datapoliceukv2.databinding.ForcesListFragmentBinding;
 import com.amber.random.datapoliceukv2.model.force.ForceItem;
 import com.amber.random.datapoliceukv2.ui.adapters.ForcesAdapter;
 import com.amber.random.datapoliceukv2.viewmodel.ForcesListViewModel;
 import com.amber.random.datapoliceukv2.viewmodel.ServiceResult;
+import com.amber.random.datapoliceukv2.viewmodel.ViewModelFactory;
 
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 public class ForcesListFragment extends BaseFragment<ForcesListFragmentBinding, ForcesListViewModel>
         implements SearchView.OnCloseListener, SearchView.OnQueryTextListener,
         MenuItemCompat.OnActionExpandListener, AdapterView.OnItemClickListener {
     private static final String sStateQuery = "sq";
+    @Inject
+    ViewModelFactory mViewModelFactory;
     private ActionBarDrawerToggle toggle = null;
     private ForcesAdapter mForcesAdapter;
     private SearchView mSearchView;
     private CharSequence mInitialQuery;
-
     //region searchView interfaces implementation
 
     @Override
@@ -74,7 +80,8 @@ public class ForcesListFragment extends BaseFragment<ForcesListFragmentBinding, 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        App.getComponent().inject(this);
+        AndroidSupportInjection.inject(this);
+        mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(ForcesListViewModel.class);
         mViewModel.getData().observe(this, this::loadData);
         bindView(R.layout.forces_list_fragment);
         mBinding.setIsLoading(true);

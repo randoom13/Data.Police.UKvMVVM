@@ -20,7 +20,6 @@ public class ForcesListViewModel extends BaseViewModel<List<ForceItem>> {
     public ForcesListViewModel(BackendServiceApi backendServiceApi) {
         super();
         mBackendServiceApi = backendServiceApi;
-
     }
 
     public void loadData(String filter) {
